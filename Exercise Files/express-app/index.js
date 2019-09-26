@@ -15,20 +15,27 @@ app.get('/', (req, res) =>
     res.json(data)
 );
 
-app.get('/item/:id', (req, res) =>{
-    console.log(req.params.id);
+
+app.get('/item/:id', (req, res, next) =>{
+    console.log('first',req.params.id);
     let user = Number(req.params.id);
     console.log(user);
     console.log(data[user]);
     res.send(data[user]);
-})
-
-app.post('/newItem', (req, res) =>
-    res.send(`a post request with /newItem route on port ${PORT}`)
+    next();
+}, (req, res) =>
+    console.log('Did you get the right data?')
 );
 
-app.put('/item', (req, res) =>
-    res.send(`a put request with /item route on port ${PORT}`)
+app.post('/item', (req, res) =>
+    res.send(`a post request with /newItem route on port ${PORT} at ${Date.now()}`)
+);
+
+app.get('/item', (req, res) =>
+res.download('images/rocket.jpg')
+    //res.redirect('http://www.linkedin.com')
+    //res.end()
+   // res.send(`a put request with /item route on port ${PORT}`)
 );
  
 app.delete('/item', (req, res) =>
